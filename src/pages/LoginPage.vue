@@ -9,7 +9,7 @@
         <input
           placeholder="example@gmail.com"
           type="text"
-          class="py-1 px-3 border border-[#CECDCD] rounded-md mb-3"
+          class="py-2 px-3 border border-[#CECDCD] rounded-md mb-3 text-sm"
           v-model="email"
         />
       </div>
@@ -20,7 +20,7 @@
         <input
           placeholder="•••••••••••"
           type="password"
-          class="py-1 px-3 mb-2 border border-[#CECDCD] rounded-md"
+          class="py-2 px-3 mb-2 border border-[#CECDCD] rounded-md text-sm"
           v-model="password"
         />
       </div>
