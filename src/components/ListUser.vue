@@ -42,16 +42,18 @@
         <th>Name</th>
         <th>Phone</th>
         <th>Email</th>
-        <th>Date</th>
-        <th>Score</th>
+        <!-- <th>Date</th>
+        <th>Score</th> -->
       </tr>
-      <tr>
+      <tr v-for="user in users" :key="user.username">
         <td><input type="checkbox" name="" id="" /></td>
-        <td>Kathryn Murphy</td>
-        <td>(252) 555-0126</td>
-        <td><a href="">tanya.hill@example.com</a></td>
-        <td>March 6, 2018</td>
-        <td>274</td>
+        <td>{{ user.fullname }}</td>
+        <td>{{ user.phone_number }}</td>
+        <td>
+          <a :href="`mailto:${user.email}`">{{ user.email }}</a>
+        </td>
+        <!-- <td>March 6, 2018</td>
+        <td>274</td> -->
       </tr>
     </table>
   </div>
@@ -63,12 +65,30 @@
 
 <script>
 import PopupComponent from "./PopupComponent.vue";
+import axios from "axios";
 export default {
   components: { PopupComponent },
   data() {
     return {
       showModal: false,
+      users: [],
     };
+  },
+  mounted() {
+    this.fetchUsers();
+  },
+  methods: {
+    async fetchUsers() {
+      try {
+        const response = await axios.get(
+          "https://api.npoint.io/20fcf58d871382b57f5c"
+        );
+        console.log(response.data);
+        this.users = response.data;
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    },
   },
 };
 </script>
