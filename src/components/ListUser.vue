@@ -2,9 +2,10 @@
   <div class="pt-5">
     <div class="flex justify-end pb-10 mr-4">
       <div
-        class="bg-blue-primary-login text-white py-2 px-4 flex rounded-md gap-2"
+        class="bg-blue-primary-login text-white py-2 px-4 flex rounded-md gap-2 cursor-pointer"
+        @click="showModal = true"
       >
-        <span><a href="">Tạo người dùng</a></span>
+        <span>Tạo người dùng</span>
         <span>
           <svg
             width="16"
@@ -54,10 +55,22 @@
       </tr>
     </table>
   </div>
+  <popup-component
+    v-show="showModal"
+    @close-modal="showModal = false"
+  ></popup-component>
 </template>
 
 <script>
-export default {};
+import PopupComponent from "./PopupComponent.vue";
+export default {
+  components: { PopupComponent },
+  data() {
+    return {
+      showModal: false,
+    };
+  },
+};
 </script>
 
 <style>
