@@ -80,9 +80,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get(
-          "https://api.npoint.io/20fcf58d871382b57f5c"
-        );
+        const response = await axios.get("http://localhost:3000/users");
         console.log(response.data);
         this.users = response.data;
       } catch (error) {

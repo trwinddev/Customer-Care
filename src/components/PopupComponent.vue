@@ -11,14 +11,19 @@
         </div>
       </div>
       <div class="avatar flex justify-center content-center items-center">
-        <div class="w-40 h-40 bg-gray-text-gray mt-8 rounded-full relative">
+        <div
+          class="w-40 h-40 bg-gray-text-gray mt-8 rounded-full relative cursor-pointer"
+          @click="openImageInput"
+        >
           <img
-            src="https://www.shareicon.net/data/128x128/2016/07/11/598417_image_64x64.png"
-            alt=""
-            class="img-demo"
+            v-if="imagePreview"
+            :src="imagePreview"
+            alt="Preview"
+            class="img-demo w-40 h-40 object-cover rounded-full"
           />
           <div
             class="bg-gray-text-gray p-[6px] inline-block rounded-full absolute bottom-4 right-1"
+            v-if="!imagePreview"
           >
             <img
               class="w-5"
@@ -27,45 +32,58 @@
             />
           </div>
         </div>
+        <input
+          type="file"
+          @change="previewImage"
+          class="hidden"
+          ref="imageInput"
+        />
       </div>
-      <form class="p-5 grid grid-cols-2 gap-5" action="">
+      <form
+        @submit.prevent="handleSubmit"
+        class="p-5 grid grid-cols-2 gap-5"
+        action=""
+      >
         <div>
           <div class="flex flex-col">
             <label for="">Username</label>
-            <input type="text" class="border my-3 p-1" />
+            <input v-model="username" type="text" class="border my-3 p-1" />
           </div>
           <div class="flex flex-col">
             <label for="">Fullname</label>
-            <input type="text" class="border my-3 p-1" />
+            <input v-model="fullname" type="text" class="border my-3 p-1" />
           </div>
           <div class="flex flex-col">
             <label for="">Email</label>
-            <input type="text" class="border my-3 p-1" />
+            <input v-model="email" type="text" class="border my-3 p-1" />
           </div>
           <div class="flex flex-col">
             <label for="">Password</label>
-            <input type="text" class="border my-3 p-1" />
+            <input v-model="password" type="text" class="border my-3 p-1" />
           </div>
         </div>
         <div>
           <div class="flex flex-col">
             <label for="">Phone number</label>
-            <input type="text" class="border my-3 p-1" />
+            <input v-model="phone_number" type="text" class="border my-3 p-1" />
           </div>
           <div class="flex flex-col">
             <label for="">Address</label>
-            <input type="text" class="border my-3 p-1" />
+            <input v-model="address" type="text" class="border my-3 p-1" />
           </div>
           <div class="flex flex-col">
             <label for="">ID Card</label>
-            <input type="text" class="border my-3 p-1" />
+            <input v-model="id_card" type="text" class="border my-3 p-1" />
           </div>
           <div class="flex flex-col">
             <label for="">Tags</label>
-            <select class="border my-3 p-1" name="" id="">
-              <option value="1">Vip</option>
-              <option value="2">Active</option>
-              <option value="3">Tpin</option>
+            <!-- <multiselect-component
+              v-model="tag"
+              class="my-3"
+            ></multiselect-component> -->
+            <select v-model="tag" name="" id="">
+              <option value="1">1</option>
+              <option value="2">2</option>
             </select>
           </div>
         </div>
@@ -76,6 +94,7 @@
           Đóng
         </button> -->
         <button
+          @click="addUser()"
           class="bg-blue-primary-login py-3 mt-2 text-white rounded-md text-base"
         >
           Tạo
@@ -86,7 +105,57 @@
 </template>
 
 <script>
-export default {};
+// import MultiselectComponent from "./MultiselectComponent.vue";
+import axios from "axios";
+export default {
+  // components: { MultiselectComponent },
+  data() {
+    return {
+      value: [],
+      options: ["Vip", "Active", "Tpin"],
+      imagePreview: null,
+      email: "",
+      username: "",
+      fullname: "",
+      password: "",
+      phone_number: "",
+      address: "",
+      id_card: "",
+      tag: [],
+    };
+  },
+  methods: {
+    previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.imagePreview = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.imagePreview = null;
+      }
+    },
+    openImageInput() {
+      this.$refs.imageInput.click();
+    },
+    async addUser() {
+      console.log(this.tag);
+      let result = await axios.post("http://localhost:3000/users", {
+        email: this.email,
+        username: this.username,
+        fullname: this.fullname,
+        password: this.password,
+        phone_number: this.phone_number,
+        address: this.address,
+        id_card: this.id_card,
+        tag: this.tag,
+      });
+      console.warn(result);
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -116,5 +185,8 @@ export default {};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.multiselect-wrapper {
+  max-height: 33px;
 }
 </style>
