@@ -24,7 +24,7 @@ export default {
   },
   watch: {
     tag(newValue) {
-      console.log("Tag in MultiselectComponent:", newValue); // Add this log to see the value of "tag"
+      console.log("Tag in MultiselectComponent:", newValue);
     },
   },
 };

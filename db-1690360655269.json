@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "tags": [
+        "Active",
+        "Vip"
+      ],
+      "email": "phucdvb@bachasoftware.com",
+      "address": "Số nhà 12, xx, xx, xx",
+      "id_card": "0222132134123231",
+      "fullname": "Đào Vĩnh Bảo Phúc",
+      "password": "59a49d3219152943ac91cbc4afbcc357",
+      "username": "phucdvb",
+      "phone_number": "0398818500",
+      "profile_picture": "https://www.shareicon.net/data/512x512/2016/08/18/810266_man_512x512.png"
+    },
+    {
+      "id": 2,
+      "tags": [
+        "Vip"
+      ],
+      "email": "phongnt@mail.com",
+      "address": "Ha Noi",
+      "id_card": "0123321123321",
+      "fullname": "Ngo Trong Phong",
+      "password": "59a49d3219152943ac91cbc4afbcc357",
+      "username": "phongnt",
+      "phone_number": "0975349807",
+      "profile_picture": "https://www.shareicon.net/data/512x512/2016/08/05/807299_player_512x512.png"
+    }
+  ]
+}
