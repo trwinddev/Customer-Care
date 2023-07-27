@@ -1,5 +1,9 @@
 <template>
-  <div class="px-5 mt-3 flex flex-col gap-5 font-medium">
+  <div
+    class="px-5 mt-3 flex flex-col gap-5 font-medium"
+    v-for="user in users"
+    :key="user.user_name"
+  >
     <div class="flex items-center gap-5">
       <div class="icon">
         <svg
@@ -15,7 +19,7 @@
           />
         </svg>
       </div>
-      <span>Mail</span>
+      <span>{{ user.email }}</span>
     </div>
     <div class="flex items-center gap-5">
       <div class="icon">
@@ -44,7 +48,7 @@
           />
         </svg>
       </div>
-      <span>Số CMND</span>
+      <span>{{ user.id_card }}</span>
     </div>
     <div class="flex items-center gap-5">
       <div class="icon">
@@ -65,7 +69,7 @@
           />
         </svg>
       </div>
-      <span>Số điện thoại</span>
+      <span>{{ user.phone_number }}</span>
     </div>
     <div class="flex items-center gap-5">
       <div class="icon">
@@ -82,13 +86,36 @@
           />
         </svg>
       </div>
-      <span>Địa chỉ</span>
+      <span>{{ user.address }}</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  data() {
+    return {
+      showModal: false,
+      users: [],
+    };
+  },
+  mounted() {
+    this.fetchUsers();
+  },
+  methods: {
+    async fetchUsers() {
+      try {
+        const response = await axios.get("http://localhost:3000/users");
+        if (response.data.length > 0) {
+          this.users = [response.data[0]];
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    },
+  },
+};
 </script>
 
 <style></style>

@@ -49,7 +49,9 @@
         <div>{{ user.phone_number }}</div>
       </li>
     </ul>
-    <p v-else-if="!isLoading && searchUser">No users found.</p>
+    <p v-else-if="!isLoading && searchUser" class="pl-2 mt-5">
+      No users found.
+    </p>
   </div>
 </template>
 

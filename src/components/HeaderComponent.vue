@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[300px]">
+  <div class="w-[400px]">
     <div class="border-b-2 border-b-orange-primary-color flex">
       <div
         class="cursor-pointer"
@@ -36,16 +36,29 @@
       <header-contact v-if="!search"></header-contact>
     </div>
   </div>
+  <div>
+    <user-detail v-if="search"></user-detail>
+    <list-user v-if="!search"></list-user>
+  </div>
 </template>
 
 <script>
 import HeaderContact from "./HeaderContact.vue";
 import HeaderIcon from "./HeaderIcon.vue";
 import InforComponent from "./InforComponent.vue";
+import ListUser from "./ListUser.vue";
 import SearchComponent from "./SearchComponent.vue";
+import UserDetail from "./UserDetail.vue";
 
 export default {
-  components: { HeaderIcon, InforComponent, HeaderContact, SearchComponent },
+  components: {
+    HeaderIcon,
+    InforComponent,
+    HeaderContact,
+    SearchComponent,
+    UserDetail,
+    ListUser,
+  },
   data() {
     return {
       search: false,
