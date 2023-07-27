@@ -25,37 +25,59 @@
       </div>
     </div>
     <header
-      class="mb-5 border-b-4 border-orange-primary-color flex text-center font-medium"
+      class="mb-5 border-b-4 border-orange-primary-color flex text-center font-medium gap-2 items-center"
     >
       <span
-        class="border border-t-4 border-orange-primary-color text-orange-primary-color p-2"
+        class="cursor-pointer text-center"
+        :class="{
+          'border border-t-4 border-orange-primary-color text-orange-primary-color p-2':
+            isToggleTab,
+        }"
+        @click="toggleMode(true)"
         >Lịch sử tương tác</span
       >
-      <span class="border p-2 border-t-4 border-gray-text-gray"
-        >Sản phẩm dịch vụ</span
+      <span
+        class="cursor-pointer"
+        :class="{
+          'border border-t-4 border-orange-primary-color text-orange-primary-color p-2':
+            !isToggleTab,
+        }"
+        @click="toggleMode(false)"
+        >Ghi chú</span
       >
-      <span class="border p-2 border-t-4 border-gray-text-gray">Ghi chú</span>
     </header>
-    <table>
-      <tr class="bg-gray-bg-table">
-        <th><input type="checkbox" name="" id="" />Check all</th>
-        <th>Name</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <!-- <th>Date</th>
+    <div v-if="isToggleTab" class="max-h-[500px] overflow-y-auto">
+      <table class="w-full">
+        <tr class="bg-gray-bg-table">
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Address</th>
+          <!-- <th>Date</th>
         <th>Score</th> -->
-      </tr>
-      <tr v-for="user in users" :key="user.username">
-        <td><input type="checkbox" name="" id="" /></td>
-        <td>{{ user.fullname }}</td>
-        <td>{{ user.phone_number }}</td>
-        <td>
-          <a :href="`mailto:${user.email}`">{{ user.email }}</a>
-        </td>
-        <!-- <td>March 6, 2018</td>
+        </tr>
+        <tr v-for="user in displayedUsers" :key="user.username">
+          <td>{{ user.fullname }}</td>
+          <td>
+            <a :href="`mailto:${user.email}`">{{ user.email }}</a>
+          </td>
+          <td>{{ user.phone_number }}</td>
+          <td>{{ user.address }}</td>
+          <!-- <td>March 6, 2018</td>
         <td>274</td> -->
-      </tr>
-    </table>
+        </tr>
+      </table>
+    </div>
+    <div v-if="isToggleTab" class="flex justify-center gap-5 mt-2">
+      <span
+        v-for="pageNumber in totalPages"
+        :key="pageNumber"
+        :class="{ 'text-blue-primary-login': pageNumber === currentPage }"
+        @click="goToPage(pageNumber)"
+        class="cursor-pointer"
+        >{{ pageNumber }}</span
+      >
+    </div>
   </div>
   <popup-component
     v-show="showModal"
@@ -72,7 +94,21 @@ export default {
     return {
       showModal: false,
       users: [],
+      currentPage: 1,
+      itemsPerPage: 20,
+      isToggleTab: true,
     };
+  },
+  computed: {
+    totalPages() {
+      return Math.ceil(this.users.length / this.itemsPerPage);
+    },
+
+    displayedUsers() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.users.slice(startIndex, endIndex);
+    },
   },
   mounted() {
     this.fetchUsers();
@@ -86,6 +122,12 @@ export default {
       } catch (error) {
         console.error("Error fetching users:", error);
       }
+    },
+    goToPage(pageNumber) {
+      this.currentPage = pageNumber;
+    },
+    toggleMode(isInteractionHistoryActive) {
+      this.isToggleTab = isInteractionHistoryActive;
     },
   },
 };
