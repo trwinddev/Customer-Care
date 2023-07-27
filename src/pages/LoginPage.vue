@@ -61,7 +61,7 @@ export default {
             password: password.value,
           })
           .then(() => {
-            router.push("/admin");
+            router.push("/admin/manager");
           });
       } else {
         message.value = "Tài khoản hoặc mật khẩu không chính xác!";
