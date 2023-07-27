@@ -10,11 +10,17 @@
           ｘ
         </div>
       </div>
-      <div class="avatar flex justify-center content-center items-center">
+      <div class="avatar flex justify-center content-center items-center mt-2">
         <div
-          class="w-40 h-40 bg-gray-text-gray mt-8 rounded-full relative cursor-pointer"
+          class="w-40 h-40 bg-gray-300 rounded-full relative cursor-pointer"
           @click="openImageInput"
         >
+          <img
+            src="https://www.shareicon.net/data/64x64/2015/09/25/646131_image_512x512.png"
+            alt=""
+            class="img-icon"
+            v-if="!imagePreview"
+          />
           <img
             v-if="imagePreview"
             :src="imagePreview"
@@ -22,7 +28,7 @@
             class="img-demo w-40 h-40 object-cover rounded-full"
           />
           <div
-            class="bg-gray-text-gray p-[6px] inline-block rounded-full absolute bottom-4 right-1"
+            class="bg-gray-200 p-[6px] inline-block rounded-full absolute bottom-4 right-1"
             v-if="!imagePreview"
           >
             <img
@@ -39,49 +45,119 @@
           ref="imageInput"
         />
       </div>
-      <form
-        @submit.prevent="handleSubmit"
+      <Form
+        @submit="handleSubmit()"
         class="p-5 grid grid-cols-2 gap-5"
         action=""
       >
         <div>
           <div class="flex flex-col">
-            <label for="">Username</label>
-            <input v-model="username" type="text" class="border my-3 p-1" />
+            <label for="username">Username</label>
+            <Field
+              type="text"
+              name="username"
+              v-model="username"
+              class="border my-3 p-1"
+              :rules="requiredRule('Username')"
+            />
+            <ErrorMessage
+              class="text-red-500 text-sm -mt-2 mb-2"
+              name="username"
+            />
           </div>
           <div class="flex flex-col">
-            <label for="">Fullname</label>
-            <input v-model="fullname" type="text" class="border my-3 p-1" />
+            <label for="fullname">Fullname</label>
+            <Field
+              type="text"
+              name="fullname"
+              v-model="fullname"
+              class="border my-3 p-1"
+              :rules="requiredRule('Fullname')"
+            />
+            <ErrorMessage
+              class="text-red-500 text-sm -mt-2 mb-2"
+              name="fullname"
+            />
           </div>
           <div class="flex flex-col">
-            <label for="">Email</label>
-            <input v-model="email" type="text" class="border my-3 p-1" />
+            <label for="email">Email</label>
+            <Field
+              type="email"
+              name="email"
+              v-model="email"
+              class="border my-3 p-1"
+              :rules="validateEmail"
+            />
+            <ErrorMessage
+              class="text-red-500 text-sm -mt-2 mb-2"
+              name="email"
+            />
           </div>
           <div class="flex flex-col">
-            <label for="">Password</label>
-            <input v-model="password" type="text" class="border my-3 p-1" />
+            <label for="password">Password</label>
+            <Field
+              type="password"
+              name="password"
+              v-model="password"
+              class="border my-3 p-1"
+              :rules="requiredRule('Password')"
+            />
+            <ErrorMessage
+              class="text-red-500 text-sm -mt-2 mb-2"
+              name="password"
+            />
           </div>
         </div>
         <div>
           <div class="flex flex-col">
-            <label for="">Phone number</label>
-            <input v-model="phone_number" type="text" class="border my-3 p-1" />
+            <label for="phone_number">Phone number</label>
+            <Field
+              type="text"
+              name="phone_number"
+              v-model="phone_number"
+              class="border my-3 p-1"
+              :rules="requiredRule('Phone number')"
+            />
+            <ErrorMessage
+              class="text-red-500 text-sm -mt-2 mb-2"
+              name="phone_number"
+            />
           </div>
           <div class="flex flex-col">
-            <label for="">Address</label>
-            <input v-model="address" type="text" class="border my-3 p-1" />
+            <label for="address">Address</label>
+            <Field
+              type="text"
+              name="address"
+              v-model="address"
+              class="border my-3 p-1"
+              :rules="requiredRule('Address')"
+            />
+            <ErrorMessage
+              class="text-red-500 text-sm -mt-2 mb-2"
+              name="address"
+            />
           </div>
           <div class="flex flex-col">
-            <label for="">ID Card</label>
-            <input v-model="id_card" type="text" class="border my-3 p-1" />
+            <label for="id_card">ID Card</label>
+            <Field
+              type="text"
+              name="id_card"
+              v-model="id_card"
+              class="border my-3 p-1"
+              :rules="requiredRule('ID Card')"
+            />
+            <ErrorMessage
+              class="text-red-500 text-sm -mt-2 mb-2"
+              name="id_card"
+            />
           </div>
           <div class="flex flex-col">
-            <label for="">Tags</label>
+            <label for="tag">Tags</label>
             <!-- <multiselect-component
               v-model="tag"
               class="my-3"
             ></multiselect-component> -->
-            <select v-model="tag" name="" id="">
+            <select v-model="tag" name="tag" id="tag">
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
@@ -94,12 +170,19 @@
           Đóng
         </button> -->
         <button
-          @click="addUser()"
-          class="bg-blue-primary-login py-3 mt-2 text-white rounded-md text-base"
+          @click="addUser"
+          type="submit"
+          class="py-3 mt-2 text-white rounded-md text-base"
+          :class="{
+            'bg-blue-300': !isFormValid,
+            'bg-blue-primary-login': isFormValid,
+            'cursor-not-allowed': !isFormValid,
+          }"
+          :disabled="!isFormValid"
         >
           Tạo
         </button>
-      </form>
+      </Form>
     </div>
   </div>
 </template>
@@ -107,8 +190,14 @@
 <script>
 // import MultiselectComponent from "./MultiselectComponent.vue";
 import axios from "axios";
+import { Form, Field, ErrorMessage } from "vee-validate";
 export default {
   // components: { MultiselectComponent },
+  components: {
+    Form,
+    Field,
+    ErrorMessage,
+  },
   data() {
     return {
       value: [],
@@ -124,7 +213,23 @@ export default {
       tag: [],
     };
   },
+  computed: {
+    isFormValid() {
+      return (
+        this.email &&
+        this.username &&
+        this.fullname &&
+        this.password &&
+        this.phone_number &&
+        this.address &&
+        this.id_card
+      );
+    },
+  },
   methods: {
+    closeModal() {
+      this.$emit("close-modal");
+    },
     previewImage(event) {
       const file = event.target.files[0];
       if (file) {
@@ -141,7 +246,21 @@ export default {
       this.$refs.imageInput.click();
     },
     async addUser() {
-      console.log(this.tag);
+      let imageData = null;
+      if (this.imagePreview) {
+        try {
+          const response = await fetch(this.imagePreview);
+          const blob = await response.blob();
+          imageData = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.readAsDataURL(blob);
+          });
+        } catch (error) {
+          console.error("Error converting image to base64:", error);
+          return;
+        }
+      }
       let result = await axios.post("http://localhost:3000/users", {
         email: this.email,
         username: this.username,
@@ -151,8 +270,29 @@ export default {
         address: this.address,
         id_card: this.id_card,
         tag: this.tag,
+        avatar: imageData,
       });
       console.warn(result);
+      this.closeModal();
+    },
+    handleSubmit() {},
+    requiredRule(fieldName) {
+      return (value) => {
+        if (!value) {
+          return `${fieldName} is required`;
+        }
+        return true;
+      };
+    },
+    validateEmail(value) {
+      if (!value) {
+        return "Email is required";
+      }
+      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (!regex.test(value)) {
+        return "This field must be a valid email";
+      }
+      return true;
     },
   },
 };
@@ -172,7 +312,7 @@ export default {
 
 .modal {
   background-color: white;
-  height: 680px;
+  height: 700px;
   width: 550px;
   position: absolute;
   top: 50%;
@@ -181,6 +321,13 @@ export default {
   border-radius: 20px;
 }
 .img-demo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.img-icon {
   position: absolute;
   top: 50%;
   left: 50%;
