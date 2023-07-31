@@ -59,7 +59,9 @@
         <tr v-for="user in displayedUsers" :key="user.username">
           <td>{{ user.fullname }}</td>
           <td>
-            <a :href="`mailto:${user.email}`">{{ user.email }}</a>
+            <a class="cursor-pointer" @click="showUserDetail(user)">{{
+              user.email
+            }}</a>
           </td>
           <td>{{ user.phone_number }}</td>
           <td>{{ user.address }}</td>
@@ -83,13 +85,19 @@
     v-show="showModal"
     @close-modal="showModal = false"
   ></popup-component>
+  <user-detail
+    v-if="selectedUser"
+    :user="selectedUser"
+    @close-user-detail="selectedUser = null"
+  />
 </template>
 
 <script>
 import PopupComponent from "./PopupComponent.vue";
 import axios from "axios";
+import UserDetail from "./UserDetail.vue";
 export default {
-  components: { PopupComponent },
+  components: { PopupComponent, UserDetail },
   data() {
     return {
       showModal: false,
@@ -97,6 +105,7 @@ export default {
       currentPage: 1,
       itemsPerPage: 20,
       isToggleTab: true,
+      selectedUser: null,
     };
   },
   computed: {
@@ -114,6 +123,9 @@ export default {
     this.fetchUsers();
   },
   methods: {
+    showUserDetail(user) {
+      this.selectedUser = user;
+    },
     async fetchUsers() {
       try {
         const response = await axios.get("http://localhost:3000/users");

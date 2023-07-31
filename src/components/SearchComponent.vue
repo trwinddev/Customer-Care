@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <div class="flex justify-center mt-2">
       <input
         type="text"
@@ -44,6 +44,7 @@
             type="radio"
             name="fullname"
             class="cursor-pointer"
+            @click="showUserDetail(user)"
           />
         </div>
         <div>{{ user.phone_number }}</div>
@@ -52,18 +53,30 @@
     <p v-else-if="!isLoading && searchUser" class="pl-2 mt-5">
       No users found.
     </p>
+    <teleport to="#admin-page">
+      <user-detail-no-modal
+        class="no-modal"
+        v-if="showUserDetails"
+        :user="selectedUser"
+        @close-user-detail="closeUserDetail"
+      ></user-detail-no-modal>
+    </teleport>
   </div>
 </template>
 
 <script>
 import axios from "axios";
+import UserDetailNoModal from "./UserDetailNoModal.vue";
 
 export default {
+  components: { UserDetailNoModal },
   data() {
     return {
       searchUser: "",
       users: [],
       isLoading: true,
+      showUserDetails: false,
+      selectedUser: null,
     };
   },
   created() {
@@ -80,6 +93,14 @@ export default {
         this.isLoading = false;
       }
     },
+    showUserDetail(user) {
+      this.selectedUser = user;
+      this.showUserDetails = true;
+    },
+    closeUserDetail() {
+      this.selectedUser = null;
+      this.showUserDetails = false;
+    },
   },
   computed: {
     filteredUsers() {
@@ -90,4 +111,8 @@ export default {
   },
 };
 </script>
-<style scoped></style>
+<style scoped>
+.no-modal {
+  margin-left: 20px;
+}
+</style>

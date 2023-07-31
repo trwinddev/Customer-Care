@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen">
+  <div class="flex h-screen" id="admin-page">
     <side-bar></side-bar>
     <header-component></header-component>
     <!-- <main class="flex-grow">

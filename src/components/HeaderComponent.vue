@@ -29,12 +29,13 @@
       <header-icon v-if="!search"></header-icon>
       <search-component v-else></search-component>
     </div>
-    <div>
+    <user-detail></user-detail>
+    <!-- <div>
       <infor-component v-if="!search"></infor-component>
     </div>
     <div>
       <header-contact v-if="!search"></header-contact>
-    </div>
+    </div> -->
   </div>
   <div>
     <user-detail v-if="search"></user-detail>
@@ -43,9 +44,7 @@
 </template>
 
 <script>
-import HeaderContact from "./HeaderContact.vue";
 import HeaderIcon from "./HeaderIcon.vue";
-import InforComponent from "./InforComponent.vue";
 import ListUser from "./ListUser.vue";
 import SearchComponent from "./SearchComponent.vue";
 import UserDetail from "./UserDetail.vue";
@@ -53,8 +52,6 @@ import UserDetail from "./UserDetail.vue";
 export default {
   components: {
     HeaderIcon,
-    InforComponent,
-    HeaderContact,
     SearchComponent,
     UserDetail,
     ListUser,
