@@ -26,7 +26,10 @@
       </div>
     </div>
     <div>
-      <header-icon v-if="!search"></header-icon>
+      <header-icon
+        @selected-svg="updateSelectedSVG"
+        v-if="!search"
+      ></header-icon>
       <search-component v-else></search-component>
     </div>
     <user-detail></user-detail>
@@ -39,7 +42,7 @@
   </div>
   <div>
     <user-detail v-if="search"></user-detail>
-    <list-user v-if="!search"></list-user>
+    <list-user v-if="!search && showListUser"></list-user>
   </div>
 </template>
 
@@ -59,11 +62,17 @@ export default {
   data() {
     return {
       search: false,
+      selectedSVG: 1,
+      showListUser: true,
     };
   },
   methods: {
     toggleView(view) {
       this.search = view === "search";
+    },
+    updateSelectedSVG(index) {
+      this.selectedSVG = index;
+      this.showListUser = index === 1;
     },
   },
 };

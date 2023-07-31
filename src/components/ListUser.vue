@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-5">
+  <div class="pt-5 ml-5">
     <div class="flex justify-end pb-10 mr-4">
       <div
         class="bg-blue-primary-login text-white py-2 px-4 flex rounded-md gap-2 cursor-pointer"
