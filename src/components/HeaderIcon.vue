@@ -1,5 +1,12 @@
 <template>
-  <div class="flex items-center justify-center gap-10 px-5">
+  <div class="flex justify-center mt-2">
+    <span
+      class="lg:hidden bg-blue-primary-login text-white text-center py-2 px-4 w rounded-md cursor-pointer"
+      @click="showModal = true"
+      >Tạo người dùng</span
+    >
+  </div>
+  <div class="flex lg:justify-start items-center justify-center gap-10 px-5">
     <span class="w-9 cursor-pointer" @click="handleClick(1)"
       ><svg
         width="50"
@@ -77,14 +84,21 @@
       </svg>
     </span>
   </div>
+  <popup-component
+    v-show="showModal"
+    @close-modal="showModal = false"
+  ></popup-component>
 </template>
 
 <script>
+import PopupComponent from "./PopupComponent.vue";
 export default {
+  components: { PopupComponent },
   data() {
     return {
       selectedSVG: 1,
       showListUser: true,
+      showModal: false,
     };
   },
   methods: {

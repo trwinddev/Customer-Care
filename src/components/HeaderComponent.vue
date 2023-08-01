@@ -1,6 +1,8 @@
 <template>
-  <div class="w-[400px]">
-    <div class="border-b-2 border-b-orange-primary-color flex">
+  <div class="w-full lg:w-fit">
+    <div
+      class="border-b-2 border-b-orange-primary-color flex justify-center lg:justify-start"
+    >
       <div
         class="cursor-pointer"
         @click="toggleView('info')"
@@ -9,7 +11,6 @@
           'text-gray-text-gray': search,
         }"
       >
-        <!-- bg-gradient-to-b from-orange-rgba-one to-orange-rgba-two -->
         <div class="text-sm font-bold w-full h-full py-4 px-3">
           Thông tin khách hàng
         </div>
@@ -33,21 +34,26 @@
       <search-component v-else></search-component>
     </div>
     <user-detail></user-detail>
-    <!-- <div>
-      <infor-component v-if="!search"></infor-component>
-    </div>
     <div>
-      <header-contact v-if="!search"></header-contact>
-    </div> -->
+      <infor-component
+        v-if="!search && showListUser"
+        class="lg:hidden"
+      ></infor-component>
+    </div>
   </div>
   <div>
-    <user-detail v-if="search"></user-detail>
-    <list-user v-if="!search && showListUser"></list-user>
+    <div class="hidden lg:block">
+      <user-detail v-if="search"></user-detail>
+    </div>
+    <div class="hidden lg:block">
+      <list-user v-if="!search && showListUser"></list-user>
+    </div>
   </div>
 </template>
 
 <script>
 import HeaderIcon from "./HeaderIcon.vue";
+import InforComponent from "./InforComponent.vue";
 import ListUser from "./ListUser.vue";
 import SearchComponent from "./SearchComponent.vue";
 import UserDetail from "./UserDetail.vue";
@@ -58,6 +64,7 @@ export default {
     SearchComponent,
     UserDetail,
     ListUser,
+    InforComponent,
   },
   data() {
     return {

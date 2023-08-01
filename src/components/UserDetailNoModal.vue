@@ -1,5 +1,5 @@
 <template>
-  <div class="user-detail" v-if="user">
+  <div class="user-detail pl-5" v-if="user">
     <div class="pt-10">
       <div class="infor-top flex items-center">
         <div class="avatar ml-1 mr-3">

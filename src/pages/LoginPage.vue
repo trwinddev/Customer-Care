@@ -1,42 +1,51 @@
 <template>
   <div class="h-screen flex items-center justify-center">
-    <form action="" class="right-72 bg-white shadow-2xl py-16 px-14 rounded-xl">
-      <h2 class="text-[#F57212] text-xl">Customer care</h2>
-      <div class="pt-4">
-        <label for="" class="text-blue-primary-login block text-sm pb-2"
-          >Tên đăng nhập</label
-        >
-        <input
-          placeholder="example@gmail.com"
-          type="text"
-          class="py-2 px-3 border border-[#CECDCD] rounded-md mb-3 text-sm"
-          v-model="email"
-        />
-      </div>
-      <div>
-        <label for="" class="text-blue-primary-login block text-sm pb-2"
-          >Mật khẩu</label
-        >
-        <input
-          placeholder="•••••••••••"
-          type="password"
-          class="py-2 px-3 mb-2 border border-[#CECDCD] rounded-md text-sm"
-          v-model="password"
-        />
-      </div>
-      <div class="flex text-center">
-        <input type="checkbox" class="mr-2" />
-        <span class="text-blue-primary-login text-sm">Ghi nhớ ?</span>
-      </div>
-      <button
-        class="mt-4 rounded-lg bg-blue-primary-login text-[#FFFCFC] w-full border-none outline-none text-sm py-2"
-        @click="login"
+    <div class="form-center flex relative items-center">
+      <form
+        action=""
+        class="lg:absolute lg:right-80 bg-white shadow-2xl py-16 px-14 rounded-xl"
       >
-        Đăng nhập
-      </button>
-      <p v-if="message" class="text-red-500">{{ message }}</p>
-    </form>
-    <!-- <img src="../assets/images/image-login.png" alt="" class="absolute" /> -->
+        <h2 class="text-[#F57212] text-xl">Customer care</h2>
+        <div class="pt-4">
+          <label for="" class="text-blue-primary-login block text-sm pb-2"
+            >Tên đăng nhập</label
+          >
+          <input
+            placeholder="example@gmail.com"
+            type="text"
+            class="py-2 px-3 border border-[#CECDCD] rounded-md mb-3 text-sm"
+            v-model="email"
+          />
+        </div>
+        <div>
+          <label for="" class="text-blue-primary-login block text-sm pb-2"
+            >Mật khẩu</label
+          >
+          <input
+            placeholder="•••••••••••"
+            type="password"
+            class="py-2 px-3 mb-2 border border-[#CECDCD] rounded-md text-sm"
+            v-model="password"
+          />
+        </div>
+        <div class="flex text-center">
+          <input type="checkbox" class="mr-2" />
+          <span class="text-blue-primary-login text-sm">Ghi nhớ ?</span>
+        </div>
+        <button
+          class="mt-4 rounded-lg bg-blue-primary-login text-[#FFFCFC] w-full border-none outline-none text-sm py-2"
+          @click="login"
+        >
+          Đăng nhập
+        </button>
+        <p v-if="message" class="text-red-500">{{ message }}</p>
+      </form>
+      <img
+        src="../assets/image-login.png"
+        alt="image-login"
+        class="hidden lg:block h-[390px] object-cover"
+      />
+    </div>
   </div>
 </template>
 
@@ -78,10 +87,11 @@ export default {
 };
 </script>
 
-<style>
-.container {
+<style scoped>
+.form-center {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>

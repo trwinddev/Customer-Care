@@ -1,6 +1,9 @@
 <template>
   <div class="modal-overlay" @click="$emit('close-modal')">
-    <div class="modal" @click.stop>
+    <div
+      class="modal h-5/6 w-[300px] md:w-[480px] lg:w-[550px] custom-scrollbar p-4"
+      @click.stop
+    >
       <div class="flex justify-between border-b-2 p-5 items-center">
         <h2 class="text-blue-primary-login font-medium">Thông tin cá nhân</h2>
         <div
@@ -47,7 +50,7 @@
       </div>
       <Form
         @submit="handleSubmit()"
-        class="p-5 grid grid-cols-2 gap-5"
+        class="p-5 grid lg:grid-cols-2 lg:gap-5"
         action=""
       >
         <div>
@@ -188,11 +191,9 @@
 </template>
 
 <script>
-// import MultiselectComponent from "./MultiselectComponent.vue";
 import axios from "axios";
 import { Form, Field, ErrorMessage } from "vee-validate";
 export default {
-  // components: { MultiselectComponent },
   components: {
     Form,
     Field,
@@ -312,13 +313,8 @@ export default {
 
 .modal {
   background-color: white;
-  height: 700px;
-  width: 550px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   border-radius: 20px;
+  overflow-y: auto;
 }
 .img-demo {
   position: absolute;
@@ -332,6 +328,21 @@ export default {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0); /* Make it transparent */
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.2); /* Show some color on hover if needed */
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0); /* Make it transparent */
 }
 .multiselect-wrapper {
   max-height: 33px;

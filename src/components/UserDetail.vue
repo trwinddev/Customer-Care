@@ -1,6 +1,6 @@
 <template>
   <div class="modal-overlay" v-if="user" @click="handleClickOutside">
-    <div class="modal-content" @click.stop>
+    <div class="modal-content w-auto" @click.stop>
       <button class="close-button" @click="closeUserDetail">&times;</button>
       <div class="pt-10">
         <div class="infor-top flex items-center">
@@ -20,7 +20,7 @@
           </div>
         </div>
       </div>
-      <div class="px-5 mt-3 flex flex-col gap-5 font-medium" v-if="user">
+      <div class="mt-3 flex flex-col gap-5 font-medium" v-if="user">
         <div class="flex items-center gap-5">
           <div class="icon">
             <svg

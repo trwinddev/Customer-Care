@@ -31,5 +31,6 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  content: ["node_modules/preline/dist/*.js"],
+  plugins: [require("preline/plugin")],
 };
