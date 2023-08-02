@@ -3,7 +3,11 @@
     <div class="pt-10">
       <div class="infor-top flex items-center">
         <div class="avatar ml-1 mr-3">
-          <img :src="imageSrc" class="w-16 h-16 object-cover" alt="avatar" />
+          <img
+            :src="getImageFromBase64(user.avatar)"
+            class="w-16 h-16 object-cover rounded-full"
+            alt="avatar"
+          />
         </div>
         <div class="flex flex-col gap-2">
           <div class="font-bold text-base">{{ user.fullname }}</div>
@@ -131,10 +135,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:3000/users");
         if (response.data.length > 0) {
-          this.users = [response.data[0]];
-          this.imageSrc = await this.convertBase64ToImageSrc(
-            this.users[0].profile_picture
-          );
+          this.users = response.data;
         }
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -151,19 +152,11 @@ export default {
         this.closeUserDetail();
       }
     },
-    // async convertBase64ToImageSrc(base64) {
-    //   try {
-    //     return await new Promise((resolve, reject) => {
-    //       const img = new Image();
-    //       img.onload = () => resolve(img.src);
-    //       img.onerror = reject;
-    //       img.src = "data:image/png;base64," + base64;
-    //     });
-    //   } catch (error) {
-    //     console.error("Error converting Base64 to image:", error);
-    //     return null;
-    //   }
-    // },
+    getImageFromBase64(base64Image) {
+      const image = new Image();
+      image.src = base64Image;
+      return base64Image;
+    },
   },
 };
 </script>

@@ -99,7 +99,7 @@
             </router-link>
           </span>
         </div>
-        <div class="p-2 cursor-pointer pb-10">
+        <div class="p-2 cursor-pointer pb-10 logout" @click="logout">
           <svg
             width="56"
             height="60"
@@ -271,7 +271,7 @@
             </router-link>
           </span>
         </div>
-        <div class="p-2 cursor-pointer pb-10">
+        <div class="p-2 cursor-pointer pb-10 logout" @click="logout">
           <svg
             width="56"
             height="60"
@@ -346,7 +346,21 @@
 </template>
 
 <script>
-export default {};
+import { auth } from "../config/firebase";
+import "firebase/auth";
+export default {
+  methods: {
+    logout() {
+      try {
+        auth.signOut();
+        localStorage.setItem("isLoggedIn", "false");
+        this.$router.push("/");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+};
 </script>
 
 <style>

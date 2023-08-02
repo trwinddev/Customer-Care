@@ -9,7 +9,7 @@
         <div class="avatar ml-1 mr-3 mt-5">
           <img
             :src="getImageFromBase64(user.avatar)"
-            class="w-16 h-16 object-cover"
+            class="w-16 h-16 object-cover rounded-full"
             alt="avatar"
           />
         </div>

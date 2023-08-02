@@ -2,7 +2,7 @@
   <div class="h-screen flex items-center justify-center">
     <div class="form-center flex relative items-center">
       <form
-        action=""
+        @submit="onSubmit"
         class="lg:absolute lg:right-80 bg-white shadow-2xl py-16 px-14 rounded-xl"
       >
         <h2 class="text-[#F57212] text-xl">Customer care</h2>
@@ -14,8 +14,9 @@
             placeholder="example@gmail.com"
             type="text"
             class="py-2 px-3 border border-[#CECDCD] rounded-md mb-3 text-sm"
-            v-model="email"
+            v-bind="email"
           />
+          <div class="text-red-600 mt-2">{{ errors.email }}</div>
         </div>
         <div>
           <label for="" class="text-blue-primary-login block text-sm pb-2"
@@ -25,8 +26,9 @@
             placeholder="•••••••••••"
             type="password"
             class="py-2 px-3 mb-2 border border-[#CECDCD] rounded-md text-sm"
-            v-model="password"
+            v-bind="password"
           />
+          <div class="text-red-600 mt-2">{{ errors.password }}</div>
         </div>
         <div class="flex text-center">
           <input type="checkbox" class="mr-2" />
@@ -38,7 +40,7 @@
         >
           Đăng nhập
         </button>
-        <p v-if="message" class="text-red-500">{{ message }}</p>
+        <p v-if="loginError" class="text-red-500 mt-2">{{ loginError }}</p>
       </form>
       <img
         src="../assets/image-login.png"
@@ -49,49 +51,46 @@
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
+<script setup>
+import { useForm } from "vee-validate";
+import * as yup from "yup";
+import { auth } from "../config/firebase";
 import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-export default {
-  setup() {
-    const email = ref("");
-    const password = ref("");
-    const message = ref("");
-    const router = useRouter();
-    const store = useStore();
 
-    const login = () => {
-      if (email.value === "admin@mail.com" && password.value === "123") {
-        message.value = "";
-        store
-          .dispatch("login", {
-            username: email.value,
-            password: password.value,
-          })
-          .then(() => {
-            router.push("/admin/manager");
-          });
-      } else {
-        message.value = "Tài khoản hoặc mật khẩu không chính xác!";
-      }
-    };
+const { errors, handleSubmit, defineInputBinds } = useForm({
+  validationSchema: yup.object({
+    email: yup
+      .string()
+      .email("Email must be a valid email")
+      .required("Email is a required field"),
+    password: yup
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Password is a required field"),
+  }),
+});
 
-    return {
+const router = useRouter();
+let loginError = "";
+const onSubmit = handleSubmit(async (values) => {
+  try {
+    const { email, password } = values;
+    const userCredential = await auth.signInWithEmailAndPassword(
       email,
-      password,
-      message,
-      login,
-    };
-  },
-};
-</script>
+      password
+    );
+    const user = userCredential.user;
+    console.log("Login successful:", user);
+    localStorage.setItem("isLoggedIn", "true");
+    router.push("/admin/manager");
+    loginError = "";
+  } catch (error) {
+    console.error("Login failed:", error.message);
+    loginError =
+      "Đăng nhập không thành công. Vui lòng kiểm tra lại tài khoản và mật khẩu.";
+  }
+});
 
-<style scoped>
-.form-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>
+const email = defineInputBinds("email");
+const password = defineInputBinds("password");
+</script>
