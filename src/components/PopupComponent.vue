@@ -156,14 +156,17 @@
           </div>
           <div class="flex flex-col">
             <label for="tag">Tags</label>
-            <!-- <multiselect-component
-              v-model="tag"
+            <v-select
               class="my-3"
-            ></multiselect-component> -->
-            <select v-model="tag" name="tag" id="tag">
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
+              multiple
+              v-model="tag"
+              :options="tagList"
+              label="tagName"
+            >
+              <template #option="option">
+                <span>{{ option.tagName }}</span>
+              </template>
+            </v-select>
           </div>
         </div>
         <!-- <button
@@ -175,7 +178,7 @@
         <button
           @click="addUser"
           type="submit"
-          class="py-3 mt-2 text-white rounded-md text-base"
+          class="py-3 mt-4 text-white rounded-md text-base"
           :class="{
             'bg-blue-300': !isFormValid,
             'bg-blue-primary-login': isFormValid,
@@ -193,17 +196,18 @@
 <script>
 import axios from "axios";
 import { Form, Field, ErrorMessage } from "vee-validate";
-// import imageToBase64 from "image-to-base64/browser";
 export default {
   components: {
     Form,
     Field,
     ErrorMessage,
+    vSelect: window["vue-select"],
   },
+
   data() {
     return {
       value: [],
-      options: ["Vip", "Active", "Tpin"],
+      // options: ["Vip", "Active", "Tpin"],
       imagePreview: null,
       email: "",
       username: "",
@@ -213,6 +217,17 @@ export default {
       address: "",
       id_card: "",
       tag: [],
+      tagList: [
+        {
+          tagName: "Vip",
+        },
+        {
+          tagName: "Active",
+        },
+        {
+          tagName: "Tpin",
+        },
+      ],
     };
   },
   computed: {

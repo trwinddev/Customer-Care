@@ -12,9 +12,9 @@
             <div class="uppercase text-white text-xs font-medium flex gap-3">
               <span
                 class="bg-orange-primary-color px-2 py-[2px] rounded-xl"
-                v-for="tag in user.tags"
+                v-for="tag in user.tag"
                 :key="tag"
-                >{{ tag }}</span
+                >{{ tag.tagName }}</span
               >
             </div>
           </div>
