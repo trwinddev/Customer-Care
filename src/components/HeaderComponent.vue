@@ -34,11 +34,8 @@
       <search-component v-else></search-component>
     </div>
     <user-detail></user-detail>
-    <div>
-      <infor-component
-        v-if="!search && showListUser"
-        class="lg:hidden"
-      ></infor-component>
+    <div class="lg:hidden">
+      <infor-component v-if="!search && showListUser"></infor-component>
     </div>
   </div>
   <div>

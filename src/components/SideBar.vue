@@ -78,7 +78,7 @@
             </router-link>
           </span>
           <span
-            class="item pt-4 hover:border-l-8 border-[#FF9E2C]"
+            class="item pt-4 hover:border-l-8 border-[#FF9E2C] pb-4"
             :class="{
               'border-l-8 border-[#FF9E2C]': $route.path === '/admin/chart',
             }"

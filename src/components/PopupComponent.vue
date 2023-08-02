@@ -193,6 +193,7 @@
 <script>
 import axios from "axios";
 import { Form, Field, ErrorMessage } from "vee-validate";
+// import imageToBase64 from "image-to-base64/browser";
 export default {
   components: {
     Form,
@@ -262,6 +263,7 @@ export default {
           return;
         }
       }
+
       let result = await axios.post("http://localhost:3000/users", {
         email: this.email,
         username: this.username,
