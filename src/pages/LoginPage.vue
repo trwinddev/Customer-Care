@@ -16,7 +16,7 @@
             class="py-2 px-3 border border-[#CECDCD] rounded-md mb-3 text-sm"
             v-bind="email"
           />
-          <div class="text-red-600 mt-2">{{ errors.email }}</div>
+          <div class="text-red-600 text-sm -mt-2 pb-2">{{ errors.email }}</div>
         </div>
         <div>
           <label for="" class="text-blue-primary-login block text-sm pb-2"
@@ -28,7 +28,9 @@
             class="py-2 px-3 mb-2 border border-[#CECDCD] rounded-md text-sm"
             v-bind="password"
           />
-          <div class="text-red-600 mt-2">{{ errors.password }}</div>
+          <div class="text-red-600 text-sm -mt-1 pb-2">
+            {{ errors.password }}
+          </div>
         </div>
         <div class="flex text-center">
           <input
@@ -47,12 +49,14 @@
         >
           Đăng nhập
         </button>
-        <p v-if="loginError" class="text-red-500 mt-2">{{ loginError }}</p>
+        <p v-if="loginError" class="text-red-500 text-sm mt-2">
+          {{ loginError }}
+        </p>
       </form>
       <img
         src="../assets/image-login.png"
         alt="image-login"
-        class="hidden lg:block h-[400px] object-cover"
+        class="hidden lg:block h-[390px] object-cover"
       />
     </div>
   </div>
