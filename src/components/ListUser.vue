@@ -30,7 +30,7 @@
         >Ghi chú</span
       >
     </header>
-    <div v-if="isToggleTab" class="max-h-[500px]">
+    <div v-if="isToggleTab" class="max-h-[500px] overflow-y-auto">
       <table class="w-full">
         <tr class="bg-gray-bg-table">
           <th>Name</th>
@@ -96,7 +96,9 @@ export default {
     displayedUsers() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.users.slice(startIndex, endIndex);
+      const sortedUsers = this.users.slice().sort((a, b) => b.id - a.id);
+
+      return sortedUsers.slice(startIndex, endIndex);
     },
   },
   mounted() {
@@ -108,7 +110,7 @@ export default {
     },
     async fetchUsers() {
       try {
-        const response = await axios.get("http://localhost:3000/users");
+        const response = await axios.get("https://ddsvts-8080.csb.app/users");
         console.log(response.data);
         this.users = response.data;
       } catch (error) {
@@ -131,11 +133,12 @@ td,
 th {
   border: 1px solid;
   text-align: center;
+  white-space: nowrap;
 }
 
 td,
 th {
-  padding: 5px 10px;
+  padding: 5px 30px;
 }
 
 table {

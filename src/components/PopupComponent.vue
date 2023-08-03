@@ -217,6 +217,7 @@ export default {
       address: "",
       id_card: "",
       tag: [],
+      users: [],
       tagList: [
         {
           tagName: "Vip",
@@ -279,7 +280,7 @@ export default {
         }
       }
 
-      let result = await axios.post("http://localhost:3000/users", {
+      let result = await axios.post("https://ddsvts-8080.csb.app/users", {
         email: this.email,
         username: this.username,
         fullname: this.fullname,
@@ -290,6 +291,7 @@ export default {
         tag: this.tag,
         avatar: imageData,
       });
+      this.users.unshift(result.data);
       console.warn(result);
       this.closeModal();
     },

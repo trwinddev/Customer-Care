@@ -65,7 +65,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get("http://localhost:3000/users");
+        const response = await axios.get("https://ddsvts-8080.csb.app/users");
         this.users = response.data;
         this.isLoading = false;
       } catch (error) {

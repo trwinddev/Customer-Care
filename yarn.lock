@@ -5565,6 +5565,11 @@ joi@^17.2.1, joi@^17.4.0:
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
 
+js-md5@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.npmjs.org/js-md5/-/js-md5-0.7.3.tgz"
+  integrity sha512-ZC41vPSTLKGwIRjqDh8DfXoCrdQIyBgspJVPXHBGu4nZlAEvG3nf+jO9avM9RmLiGakg7vz974ms99nEV0tmTQ==
+
 js-message@1.0.7:
   version "1.0.7"
   resolved "https://registry.npmjs.org/js-message/-/js-message-1.0.7.tgz"

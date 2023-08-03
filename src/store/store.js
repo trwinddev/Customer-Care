@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { generateAuthToken } from "@/auth/auth";
+import { generateAuthToken } from "../auth/index";
 
 const store = createStore({
   state() {

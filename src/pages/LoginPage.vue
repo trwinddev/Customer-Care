@@ -31,8 +31,15 @@
           <div class="text-red-600 mt-2">{{ errors.password }}</div>
         </div>
         <div class="flex text-center">
-          <input type="checkbox" class="mr-2" />
-          <span class="text-blue-primary-login text-sm">Ghi nhớ ?</span>
+          <input
+            type="checkbox"
+            id="rememberPass"
+            class="mr-2"
+            v-model="rememberMe"
+          />
+          <label for="rememberPass" class="text-blue-primary-login text-sm"
+            >Ghi nhớ ?</label
+          >
         </div>
         <button
           class="mt-4 rounded-lg bg-blue-primary-login text-[#FFFCFC] w-full border-none outline-none text-sm py-2"
@@ -45,7 +52,7 @@
       <img
         src="../assets/image-login.png"
         alt="image-login"
-        class="hidden lg:block h-[390px] object-cover"
+        class="hidden lg:block h-[400px] object-cover"
       />
     </div>
   </div>
@@ -56,6 +63,22 @@ import { useForm } from "vee-validate";
 import * as yup from "yup";
 import { auth } from "../config/firebase";
 import { useRouter } from "vue-router";
+import md5 from "md5";
+import { ref, onMounted } from "vue";
+
+const rememberMe = ref(false);
+const autoFillLoginForm = () => {
+  const storedToken = sessionStorage.getItem("token");
+  if (storedToken) {
+    email.value = localStorage.getItem("email") || "";
+    password.value = localStorage.getItem("password") || "";
+    rememberMe.value = localStorage.getItem("rememberMe") === "true";
+  }
+};
+
+onMounted(() => {
+  autoFillLoginForm();
+});
 
 const { errors, handleSubmit, defineInputBinds } = useForm({
   validationSchema: yup.object({
@@ -72,16 +95,39 @@ const { errors, handleSubmit, defineInputBinds } = useForm({
 
 const router = useRouter();
 let loginError = "";
+
+const login = (token, rememberMe = false) => {
+  if (rememberMe) {
+    sessionStorage.setItem("token", token);
+  } else {
+    sessionStorage.setItem("token", token);
+  }
+};
+
 const onSubmit = handleSubmit(async (values) => {
   try {
     const { email, password } = values;
+    const authorizationToken = md5(email + password);
+    console.log(authorizationToken);
     const userCredential = await auth.signInWithEmailAndPassword(
       email,
       password
     );
     const user = userCredential.user;
     console.log("Login successful:", user);
+
+    if (rememberMe.value) {
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+      localStorage.setItem("rememberMe", "true");
+    } else {
+      localStorage.removeItem("email");
+      localStorage.removeItem("password");
+      localStorage.setItem("rememberMe", "false");
+    }
+
     localStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("token", authorizationToken);
     router.push("/admin/manager");
     loginError = "";
   } catch (error) {
