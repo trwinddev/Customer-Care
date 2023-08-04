@@ -28,8 +28,9 @@
 </template>
 
 <script>
-import axios from "axios";
 import UserDetail from "./UserDetail.vue";
+import { fetchUsers } from "../utils/getApi";
+
 export default {
   components: { UserDetail },
   data() {
@@ -39,20 +40,10 @@ export default {
       showUserDetails: false,
     };
   },
-  mounted() {
-    this.fetchUsers();
+  async mounted() {
+    this.users = await fetchUsers();
   },
   methods: {
-    async fetchUsers() {
-      try {
-        const response = await axios.get("https://ddsvts-8080.csb.app/users");
-        if (response.data.length > 0) {
-          this.users = response.data;
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    },
     showUserDetail(user) {
       this.selectedUser = user;
       this.showUserDetails = true;

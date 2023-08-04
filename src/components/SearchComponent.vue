@@ -6,7 +6,14 @@
       <i class="fa fa-search absolute top-1/2 -translate-y-1/2 pl-2"></i>
       <input type="text" class="p-2 w-full ml-6" v-model="searchUser" />
     </div>
-
+    <p v-if="isLoading" class="flex justify-center mt-2">Loading users...</p>
+    <div v-if="!searchUser">
+      <div class="user-list-container h-[600px] overflow-y-auto">
+        <div v-for="user in users" :key="user.id">
+          <user-detail-no-modal :user="user"></user-detail-no-modal>
+        </div>
+      </div>
+    </div>
     <ul class="pl-2 mt-5" v-if="filteredUsers.length > 0 && searchUser">
       <span class="font-semibold">Kết quả tìm kiếm danh bạ</span>
       <li

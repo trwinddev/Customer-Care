@@ -291,7 +291,17 @@ export default {
         tag: this.tag,
         avatar: imageData,
       });
+      this.$emit("user-added", result.data);
       this.users.unshift(result.data);
+      this.email = "";
+      this.username = "";
+      this.fullname = "";
+      this.password = "";
+      this.phone_number = "";
+      this.address = "";
+      this.id_card = "";
+      this.tag = [];
+      this.imagePreview = null;
       console.warn(result);
       this.closeModal();
     },

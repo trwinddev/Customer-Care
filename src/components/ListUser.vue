@@ -50,6 +50,7 @@
         </tr>
       </table>
     </div>
+
     <div v-if="isToggleTab" class="flex justify-center gap-5 mt-2">
       <span
         v-for="pageNumber in totalPages"
@@ -64,18 +65,21 @@
   <popup-component
     v-show="showModal"
     @close-modal="showModal = false"
+    @user-added="handleUserAdded"
   ></popup-component>
   <user-detail
     v-if="selectedUser"
     :user="selectedUser"
     @close-user-detail="selectedUser = null"
   />
+  <p v-if="isLoadingUsers" class="flex justify-center mt-2">Loading users...</p>
 </template>
 
 <script>
 import PopupComponent from "./PopupComponent.vue";
-import axios from "axios";
+// import axios from "axios";
 import UserDetail from "./UserDetail.vue";
+import { fetchUsers } from "../utils/getApi";
 export default {
   components: { PopupComponent, UserDetail },
   data() {
@@ -86,6 +90,7 @@ export default {
       itemsPerPage: 20,
       isToggleTab: true,
       selectedUser: null,
+      isLoadingUsers: true,
     };
   },
   computed: {
@@ -101,27 +106,22 @@ export default {
       return sortedUsers.slice(startIndex, endIndex);
     },
   },
-  mounted() {
-    this.fetchUsers();
+  async mounted() {
+    this.users = await fetchUsers();
+    this.isLoadingUsers = false;
   },
   methods: {
     showUserDetail(user) {
       this.selectedUser = user;
-    },
-    async fetchUsers() {
-      try {
-        const response = await axios.get("https://ddsvts-8080.csb.app/users");
-        console.log(response.data);
-        this.users = response.data;
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
     },
     goToPage(pageNumber) {
       this.currentPage = pageNumber;
     },
     toggleMode(isInteractionHistoryActive) {
       this.isToggleTab = isInteractionHistoryActive;
+    },
+    async handleUserAdded(newUser) {
+      this.users.unshift(newUser);
     },
   },
 };

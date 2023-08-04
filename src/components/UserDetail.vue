@@ -115,7 +115,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { fetchUsers } from "../utils/getApi";
+
 export default {
   props: {
     user: {
@@ -130,20 +131,10 @@ export default {
       imageSrc: "",
     };
   },
-  mounted() {
-    this.fetchUsers();
+  async mounted() {
+    this.users = await fetchUsers();
   },
   methods: {
-    async fetchUsers() {
-      try {
-        const response = await axios.get("https://ddsvts-8080.csb.app/users");
-        if (response.data.length > 0) {
-          this.users = response.data;
-        }
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    },
     closeModal() {
       this.$emit("close-modal");
     },
